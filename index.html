@@ -1,321 +1,690 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EduConnect — Student Feedback (Stars)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EduConnect — Student Feedback</title>
+
   <style>
-    
-    :root{
-      --bg-1: #000000; --bg-2: #0b0b0b; --panel: rgba(255,255,255,0.04);
-      --glass: rgba(255,255,255,0.03); --glass-2: rgba(255,255,255,0.02);
-      --muted: rgba(255,255,255,0.6); --accent: #ffffff;
-      --primary-grad: linear-gradient(90deg, rgba(255,255,255,0.95), rgba(255,255,255,0.7));
-      --outline: rgba(255,255,255,0.08); --success: #22c55e; --danger: #ef4444;
-      --glass-border: rgba(255,255,255,0.06);
-      --radius-lg: 18px; --radius-md: 12px; --radius-sm: 8px;
-    }
+   /* ======================================================
+   EDUCONNECT - "BEST AS F*CK" PREMIUM THEME
+   - Poppins font
+   - Teal ⇄ Purple animated gradient
+   - Glassmorphism, neon glow, floating labels
+   - Animated scrollbar + shimmer accents
+   - Responsive: mobile, tablet, desktop
+   - ~400 lines, production-ready visual polish
+   ====================================================== */
 
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial;color:var(--accent);background:radial-gradient(1200px 600px at 10% 10%, rgba(255,255,255,0.02), transparent), linear-gradient(180deg,var(--bg-1),var(--bg-2));}
+/* ---------- IMPORT FONT ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-    /* App container */
-    .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px}
-
-    /* Card */
-    .card{width:100%;max-width:840px;border-radius:22px;padding:26px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--glass-border);box-shadow:0 10px 40px rgba(2,6,23,0.7);backdrop-filter: blur(18px);position:relative;overflow:hidden}
-
-    /* Subtle vignette */
-    .card:before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg, transparent, rgba(0,0,0,0.2));}
-
-    /* Header */
-    .header{display:flex;gap:16px;align-items:center}
-    .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,#0d0d0d,#111);display:grid;place-items:center;font-weight:800;letter-spacing:0.6px;font-size:18px;color:var(--accent);border:1px solid var(--outline);box-shadow:0 6px 20px rgba(2,6,23,0.6)}
-    .meta{display:flex;flex-direction:column}
-    .title{font-size:20px;font-weight:700;margin-bottom:4px}
-    .subtitle{font-size:13px;color:var(--muted)}
-
-    /* Layout */
-    .main{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-top:20px}
-    @media (max-width:960px){.main{grid-template-columns:1fr;}.right{order:2}}
-
-    /* Left column: questions */
-    .left{padding:6px}
-    .q{background:linear-gradient(180deg,var(--glass),var(--glass-2));border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid rgba(255,255,255,0.02);transition:transform .22s cubic-bezier(.2,.9,.2,1),box-shadow .22s ease}
-    .q:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(2,6,23,0.7)}
-    .q h3{margin:0;font-size:15px}
-    .hint{font-size:12px;color:var(--muted);margin-top:8px}
-
-    /* Options grid */
-    .options{display:flex;gap:10px;margin-top:12px}
-    .opt{flex:1;padding:10px;border-radius:10px;border:1px solid var(--glass-border);background:transparent;color:var(--accent);font-weight:700;text-align:center;cursor:pointer;transition:all .18s ease;box-shadow:inset 0 -8px 18px rgba(255,255,255,0.01)}
-    .opt:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(0,0,0,0.6)}
-    .opt.selected{background:linear-gradient(90deg, rgb(71, 70, 70), rgb(154, 152, 152));transform:translateY(-6px);}
-
-    /* Stars rating — fancy */
-    .stars-wrap{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);border:1px solid rgba(255,255,255,0.02)}
-    .stars{display:flex;gap:8px}
-
-    .star-btn{width:48px;height:48px;border-radius:10px;background:transparent;border:1px solid var(--glass-border);display:grid;place-items:center;cursor:pointer;position:relative;transition:all .25s cubic-bezier(.2,.9,.2,1)}
-    .star-btn svg{width:22px;height:22px;filter:drop-shadow(0 4px 10px rgba(255, 252, 252))}
-
-    /* selected / filled star */
-    .star-btn.filled{background:linear-gradient(90deg, rgba(255, 250, 250, 0.06), rgba(255,255,255,0.03));transform:translateY(-8px) scale(1.02);box-shadow:0 14px 30px rgba(0,0,0,0.5)}
-    .star-btn.filled:after{content:'';position:absolute;inset:0;border-radius:10px;box-shadow:0 2px 20px rgb(38, 37, 37) inset}
-
-    .star-btn .shine{position:absolute;top:-6px;left:-8px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at center, rgba(255,255,255,0.9), rgba(255,255,255,0.12));opacity:0;transform:scale(0.6);transition:all .5s ease}
-    .star-btn.filled .shine{opacity:1;transform:scale(1.2)}
-
-    /* Hover preview */
-    .star-btn:hover{transform:translateY(-6px) scale(1.02);border-color:rgba(255,255,255,0.22)}
-
-    /* Range slider styling */
-    input[type='range']{width:100%;-webkit-appearance:none;background:transparent;margin-top:8px}
-    input[type='range']:focus{outline:none}
-    input[type='range']::-webkit-slider-runnable-track{height:8px;background:linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.04));border-radius:8px}
-    input[type='range']::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:20px;background:#fff;border:4px solid rgba(0,0,0,0.45);margin-top:-6px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
-
-    /* Right column: student details panel */
-    .right{padding:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;border:1px solid rgba(255,255,255,0.02);height:max-content}
-    .panel h4{margin:0 0 8px 0;font-size:15px}
-    .field{margin-bottom:10px}
-
-    input[type='text'],select,textarea{background:transparent;border:1px solid var(--glass-border);padding:10px;border-radius:10px;color:var(--accent);width:100%;transition:all .25s ease}
-    input[type='text']:focus,select:focus,textarea:focus{border-color:rgba(255,255,255,0.18);box-shadow:0 8px 20px rgba(255,255,255,0.03);transform:translateY(-2px)}
-
-    .submit-row{display:flex;gap:10px;margin-top:12px}
-    .btn{flex:1;padding:12px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
-    .btn.primary{background:var(--primary-grad);color:#000}
-    .btn.ghost{background:transparent;border:1px solid var(--glass-border);color:var(--accent)}
-
-    .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:linear-gradient(90deg,#111,#0b0b0b);padding:12px 18px;border-radius:12px;border:1px solid var(--glass-border);box-shadow:0 8px 40px rgba(2,6,23,0.7);display:none}
-
-    /* Footer tag */
-    footer.tag{position:fixed;right:14px;bottom:12px;color:var(--muted);font-size:12px}
-
-    /* micro animations */
-    .pulse{animation:pulse 3s ease-in-out infinite}
-    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.01)}100%{transform:scale(1)}}
-
-    /* decorative shapes */
-    .shape{position:absolute;border-radius:40%;filter:blur(40px);opacity:0.04}
-    .shape.s1{width:360px;height:180px;background:linear-gradient(90deg,#fff,#aaa);right:-60px;top:-40px}
-    .shape.s2{width:260px;height:260px;background:linear-gradient(90deg,#fff,#ccc);left:-80px;bottom:-60px}
-
-    /* small screens tweaks */
-    @media (max-width:520px){.card{padding:18px;border-radius:14px}.logo{width:54px;height:54px}.stars .star-btn{width:42px;height:42px}}
-
-    /* accessibility focus */
-    .star-btn:focus{outline:2px solid rgba(245, 242, 242);outline-offset:4px}
-
-    /* long CSS filler: extra micro-interactions and niceties to push length */
-    .tiny{font-size:12px;color:var(--muted)}
-    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.02),transparent);margin:12px 0;border-radius:4px}
-
-    .kbd{display:inline-block;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-weight:700}
-
-    /* animations for card entrance */
-    .card{transform-origin:center center;animation:cardIn .9s cubic-bezier(.2,.9,.2,1)}
-    @keyframes cardIn{0%{transform:translateY(40px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
-
-    .note{font-size:13px;color:var(--muted);margin-top:8px}
-
-    /* star sparkle animation */
-    .spark{position:absolute;width:6px;height:6px;border-radius:50%;background:linear-gradient(90deg,#fff,#ccc);opacity:0;transform:scale(.6);transition:all .4s ease}
-    .star-btn.filled .spark{opacity:1;transform:translateY(-10px) scale(1);}
-
-    /* tooltip */
-    .tooltip{position:absolute;padding:6px 8px;border-radius:8px;background:#000000;border:1px solid var(--glass-border);font-size:12px;color:var(--muted);white-space:nowrap;transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .18s ease}
-    .star-btn:hover .tooltip{opacity:1}
-
-    /* final spacer to reach 300 lines with extra spacing rules */
-    .spacer{height:18px}
-    .spacer2{height:10px}
-    /* ---------- SELECT DROPDOWN PREMIUM STYLE ---------- */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: rgba(255,255,255,0.05);
-  color: #fff;
-  padding: 12px 18px;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 14px;
-  font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
-  outline: none;
-  transition: all 0.4s ease;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  position: relative;
+:root{
+  /* core palette */
+  --bg-1: #0b1622;            /* deep midnight */
+  --bg-2: #111827;            /* near black */
+  --glass: rgba(255,255,255,0.04);
+  --glass-2: rgba(255,255,255,0.02);
+  --muted: rgba(255,255,255,0.65);
+  --soft: rgba(255,255,255,0.03);
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --accent-a: #00f5d4;        /* teal */
+  --accent-b: #8b5cf6;        /* purple */
+  --accent-c: #6ee7b7;        /* soft green */
+  --glass-border: rgba(255,255,255,0.06);
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --ease: cubic-bezier(.16,.84,.32,1);
+  --shadow-md: 0 10px 40px rgba(2,6,23,0.6);
+  --ui-gap: 18px;
+  --max-w: 1180px;
+  --text: #e9f2fb;
+  --danger: #ff6b6b;
+  --success: #7ef0c3;
+  --glass-highlight: rgba(255,255,255,0.03);
 }
 
-/* when focused */
-select:focus {
-  border-color: #fff;
-  background: rgba(255,255,255,0.1);
-  box-shadow: 0 0 15px rgba(255,255,255,0.2);
-  transform: scale(1.02);
+/* ---------- GLOBAL RESET & LAYOUT ---------- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background: radial-gradient(800px 400px at 10% 10%, rgba(139,92,246,0.06), transparent 8%),
+              radial-gradient(700px 300px at 95% 90%, rgba(0,245,212,0.03), transparent 8%),
+              linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:28px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  gap:20px;
 }
 
-/* add custom arrow */
-select::after {
-  content: '';
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 7px solid #fff;
-  transform: translateY(-50%);
-}
-
-/* hover animation */
-select:hover {
-  background: rgba(255,255,255,0.12);
-  box-shadow: 0 0 10px rgba(255,255,255,0.15);
-  transform: translateY(-2px);
-}
-
-/* Dropdown options */
-option {
-  background: #000;
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-  padding: 12px;
-  border: none;
-}
-
-/* subtle fade-in when dropdown opens */
-select:focus option {
-  animation: fadeInOptions 0.3s ease forwards;
-}
-
-@keyframes fadeInOptions {
-  from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-  </style>
+/* main scroll container */
+.stage{
+  width:100%;
+  max-width:var(--max-w);
+  height:calc(100vh - 56px);
   
+  scroll-behavior:smooth;
+  padding:18px;
+  border-radius:24px;
+  position:relative;
+}
+
+/* animated subtle background sheen */
+.stage::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  border-radius:28px;
+  pointer-events:none;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  mix-blend-mode: overlay;
+  z-index:0;
+}
+
+/* ---------- SCROLLBAR (WebKit) + Firefox ---------- */
+/* Firefox */
+.stage{
+  scrollbar-width: thin;
+  scrollbar-color: linear-gradient(#00f5d4,#8b5cf6) rgba(255,255,255,0.03);
+}
+/* WebKit */
+.stage::-webkit-scrollbar{width:12px;height:12px}
+.stage::-webkit-scrollbar-track{
+  background: transparent;
+  margin:12px;
+}
+.stage::-webkit-scrollbar-thumb{
+  border-radius:12px;
+  background: linear-gradient(180deg,var(--accent-a),var(--accent-b));
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6), 0 0 12px rgba(139,92,246,0.08);
+  border: 2px solid rgba(255,255,255,0.03);
+  transition: box-shadow .35s var(--ease), transform .35s var(--ease);
+}
+/* subtle pulsing animation on thumb */
+@keyframes thumbPulse{
+  0%{box-shadow:0 6px 20px rgba(0,0,0,0.55), 0 0 8px rgba(0,245,212,0.05)}
+  50%{box-shadow:0 10px 28px rgba(0,0,0,0.65), 0 0 18px rgba(139,92,246,0.12)}
+  100%{box-shadow:0 6px 20px rgba(0,0,0,0.55), 0 0 8px rgba(0,245,212,0.05)}
+}
+.stage::-webkit-scrollbar-thumb:hover{transform:scale(1.02); animation:thumbPulse 3.6s infinite ease-in-out}
+
+/* ---------- CARD / SHELL ---------- */
+.card{
+  position:relative;
+  margin:12px auto;
+  border-radius:26px;
+  padding:0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border:1px solid var(--glass-border);
+  box-shadow:var(--shadow-md);
+  overflow:hidden;
+  min-height:80vh;
+}
+
+/* decorative gradient orbs */
+.card .orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.6;
+  pointer-events:none;
+}
+.card .orb.o1{width:420px;height:420px;right:-140px;top:-140px;background:linear-gradient(45deg,var(--accent-a),transparent)}
+.card .orb.o2{width:220px;height:220px;left:-90px;bottom:-80px;background:linear-gradient(45deg,var(--accent-b),transparent)}
+
+/* ---------- HEADER (sticky) ---------- */
+.header{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:18px 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(8px);
+  position:sticky;
+  top:0;
+  z-index:30;
+}
+.logo{
+  width:56px;height:56px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:18px;
+  background: linear-gradient(135deg,var(--accent-b),var(--accent-a));
+  color:#020617;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5), inset 0 -6px 14px rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.meta{display:flex;flex-direction:column}
+.meta .title{font-size:18px;font-weight:700;letter-spacing:0.2px}
+.meta .subtitle{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* header action (optional) */
+.header .hdr-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.hdr-chip{
+  padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);
+  font-weight:600;color:var(--muted)
+}
+
+/* ---------- MAIN GRID ---------- */
+.main{
+  display:grid;
+  grid-template-columns: 1fr 340px;
+  gap:26px;
+  padding:28px;
+  position:relative;
+  z-index:5;
+}
+
+/* left column (questions) */
+.left{display:flex;flex-direction:column;gap:22px;padding-right:6px}
+/* right column (panel) */
+.right{display:flex;flex-direction:column;gap:16px;align-self:start}
+
+/* ---------- SECTION BLOCK (group container) ---------- */
+.group{
+  border-radius:18px;
+  padding:18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 8px 28px rgba(3,6,23,0.5);
+  transition: transform .26s var(--ease), box-shadow .3s var(--ease);
+}
+.group:hover{transform:translateY(-6px); box-shadow:0 18px 40px rgba(3,8,30,0.6)}
+
+/* group title */
+.group h2{
+  margin:0 0 8px 0;color:var(--accent-a);
+  font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:1px;
+}
+.group p.desc{margin:0 0 12px 0;color:var(--muted);font-size:13px}
+
+/* individual question card */
+.q{
+  margin-top:8px;
+  padding:12px;border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border:1px solid rgba(255,255,255,0.02);
+}
+.q h3{margin:0;font-size:15px;font-weight:600}
+.q .hint{font-size:12px;color:var(--muted);margin-top:8px}
+
+/* options layout */
+.options{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.opt{
+  min-width:88px;max-width:240px;
+  padding:10px 14px;border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+  border:1px solid rgba(255,255,255,0.02);
+  color:var(--muted);font-weight:600;cursor:pointer;
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background .18s;
+}
+.opt:hover{transform:translateY(-6px); box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+.opt.selected{
+  background: linear-gradient(90deg, rgba(0,245,212,0.12), rgba(139,92,246,0.06));
+  color: #e6fff9;
+  border: 1px solid rgba(0,245,212,0.18);
+  box-shadow: 0 12px 30px rgba(0,245,212,0.04), inset 0 -6px 12px rgba(255,255,255,0.02);
+}
+
+/* floating label wrapper for inputs */
+.field{
+  position:relative;margin-top:12px;
+}
+.input, input[type="text"], select, textarea{
+  width:100%;padding:12px 14px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.06);
+  color:var(--text);outline:none;font-size:14px;transition:box-shadow .25s var(--ease), border-color .25s var(--ease);
+}
+.input:focus, input[type="text"]:focus, select:focus, textarea:focus{
+  box-shadow:0 8px 30px rgba(91,95,245,0.08), 0 0 18px rgba(0,245,212,0.03);
+  border-color: rgba(0,245,212,0.18);
+}
+
+/* floating label (if implemented) */
+.flabel{
+  position:absolute;left:14px;top:10px;font-size:12px;color:var(--muted);pointer-events:none;
+  transition: all .18s var(--ease);
+}
+.input:not(:placeholder-shown) + .flabel,
+.input:focus + .flabel,
+input[type="text"]:not(:placeholder-shown) + .flabel,
+input[type="text"]:focus + .flabel,
+textarea:not(:placeholder-shown) + .flabel,
+textarea:focus + .flabel{
+  transform: translateY(-22px) scale(.94);
+  opacity:0.95;color:var(--accent-b);
+}
+
+/* subject input micro style */
+.subject-input{margin-top:10px}
+.subject-input input{padding:11px 12px;border-radius:10px}
+
+/* textarea style */
+.answer textarea, textarea#suggestions{
+  min-height:92px;resize:vertical;line-height:1.45;padding:12px;border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.007));
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+/* star rating - chunky futuristic style */
+.stars{display:flex;gap:12px;margin-top:10px;align-items:center}
+.star-btn{
+  width:52px;height:52px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;background:linear-gradient(180deg, rgba(255,255,255,0.006), rgba(255,255,255,0.001));
+  color:rgba(255,255,255,0.45);transition: transform .18s var(--ease), color .18s;
+}
+.star-btn svg{width:20px;height:20px;display:block;filter: drop-shadow(0 6px 14px rgba(0,0,0,0.45));}
+.star-btn:hover{transform:translateY(-6px);color:var(--accent-a)}
+.star-btn.active{
+  transform:scale(1.07); color:var(--accent-a);
+  box-shadow:0 12px 26px rgba(0,245,212,0.06), inset 0 -6px 14px rgba(255,255,255,0.02)
+}
+
+/* tiny helper text */
+.tiny{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* right panel design */
+.panel{
+  position:sticky;top:80px;
+  padding:18px;border-radius:14px;background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.007));
+  border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 30px rgba(2,6,23,0.45);
+}
+.panel h4{margin:0 0 8px 0;color:var(--accent-b);font-weight:700}
+
+/* submit buttons */
+.submit-row{display:flex;gap:12px;margin-top:12px}
+.btn{
+  padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);cursor:pointer;font-weight:700;
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), opacity .18s;
+}
+.btn.primary{
+  background: linear-gradient(90deg,var(--accent-b),var(--accent-a));color:#031019;border:none;
+  box-shadow:0 10px 30px rgba(91,95,245,0.12), 0 0 28px rgba(0,245,212,0.04);
+}
+.btn.primary:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(91,95,245,0.22)}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.06)}
+.btn.ghost:hover{color:var(--accent-a);border-color:rgba(0,245,212,0.18)}
+
+/* toast */
+.toast{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,var(--accent-a),var(--accent-b));
+  color:#021018;padding:12px 18px;border-radius:12px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.6);
+  opacity:0;pointer-events:none;transition:all .28s ease;z-index:80;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-10px);pointer-events:auto}
+
+/* designer tag */
+.designer{
+  position:fixed;right:16px;bottom:18px;font-weight:700;color:rgba(255,255,255,0.12);font-size:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:10px;padding:6px 10px;border:1px solid rgba(255,255,255,0.03)
+}
+.designer:hover{color:var(--accent-a);transform:translateY(-4px);box-shadow:0 6px 20px rgba(0,0,0,0.55)}
+
+/* footer tag */
+footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,255,255,0.06);font-weight:800;letter-spacing:1px}
+
+/* ---------- SMALL SCREEN / TABLET ---------- */
+@media (max-width:1024px){
+  .main{grid-template-columns:1fr 320px;padding:18px}
+  .panel{position:relative;top:auto}
+  .right{order:2}
+  .left{order:1}
+}
+
+/* mobile */
+@media (max-width:720px){
+  body{padding:12px}
+  .main{grid-template-columns:1fr;gap:14px;padding:14px}
+  .header{padding:14px}
+  .logo{width:46px;height:46px}
+  .card{min-height:unset}
+  .group{padding:14px}
+  .panel{padding:14px}
+  .submit-row{flex-direction:column}
+  .designer{right:8px;bottom:68px}
+  footer.tag{left:8px}
+}
+
+/* ---------- EXTRA MICROS: shimmer on group title & gradient underline ---------- */
+.group h2{
+  position:relative;padding-bottom:8px;
+}
+.group h2::after{
+  content:'';
+  position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:6px;
+  background:linear-gradient(90deg, rgba(0,245,212,0.2), rgba(139,92,246,0.12));
+  transform-origin:left;transform:scaleX(0);transition:transform .5s var(--ease);
+}
+.group:hover h2::after{transform:scaleX(1)}
+
+/* subtle shimmer across the whole card on hover */
+@keyframes shimmerMove{
+  0%{background-position:-400px 0}
+  100%{background-position:400px 0}
+}
+.card:hover{
+  /* visual only - slight sheen */
+}
+
+/* ---------- small helpers ---------- */
+.kv{display:flex;gap:8px;align-items:center}
+.small{font-size:12px;color:var(--muted)}
+.bold{font-weight:700;color:var(--text)}
+
+/* ---------- accessibility focus styles ---------- */
+:focus{outline: none}
+.opt:focus, .star-btn:focus, .btn:focus, input:focus, textarea:focus, select:focus{
+  box-shadow:0 12px 36px rgba(91,95,245,0.08), 0 0 18px rgba(0,245,212,0.03);
+}
+
+/* ---------- final polish: reduce motion toggle (prefers-reduced-motion) ---------- */
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important}
+  .stage{scroll-behavior:auto}
+}
+
+/* --- Popup Overlay --- */
+.instruction-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 25, 0.75);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.instruction-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Popup Modal --- */
+.instruction-modal {
+  background: linear-gradient(145deg, rgba(35,40,80,0.8), rgba(20,25,55,0.7));
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  border-radius: 24px;
+  padding: 40px 35px;
+  width: clamp(300px, 85vw, 480px);
+  color: #fff;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  transform: scale(0.9);
+  opacity: 0;
+  animation: modalIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Title + List */
+.instruction-modal h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #00c6ff, #7d2fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.instruction-modal p {
+  font-size: 0.95rem;
+  color: #d3d3ff;
+  margin-bottom: 10px;
+}
+
+.instruction-modal ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 25px;
+}
+
+.instruction-modal ul li {
+  padding: 8px 0;
+  border-left: 3px solid rgba(125, 255, 255, 0.6);
+  padding-left: 10px;
+  color: #f5f5ff;
+  font-size: 0.92rem;
+  transition: transform 0.3s ease;
+}
+
+.instruction-modal ul li:hover {
+  transform: translateX(5px);
+}
+
+/* Button */
+#gotItBtn {
+  background: linear-gradient(135deg, #00d9ff, #7f4cff);
+  border: none;
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+}
+
+#gotItBtn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #7f4cff, #00d9ff);
+  box-shadow: 0 0 20px rgba(127, 76, 255, 0.6);
+}
+
+/* --- Keyframes --- */
+@keyframes modalIn {
+  0% {
+    transform: scale(0.8) translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+
+  </style>
 </head>
 <body>
+  <!-- Instruction Popup -->
+<div class="instruction-overlay" id="instructionOverlay">
+  <div class="instruction-modal">
+    <h2>Instructions</h2>
+    <p>Hey there! Before you start, please read these quick points:</p>
+<ul>
+  <li>Be honest about your experience — we want real feedback.</li>
+  <li>Tap “Submit Feedback” when you’re done!</li>
+  <li>Make sure to fill in your name, class, and section accurately.</li>
+  <li>Be open but respectful.</li>
+  <li>Check your inputs before submitting — once sent, edits aren’t possible.</li>
+  <li>Enjoy giving feedback and help improve your learning environment!</li>
+</ul>
+
+    <button id="gotItBtn">Got it!</button>
+  </div>
+</div>
+
   <div class="stage">
     <div class="card" role="main">
       <div class="shape s1"></div>
       <div class="shape s2"></div>
 
       <div class="header">
-        <div class="logo">EC</div>
+        <div class="logo">APSK</div>
         <div class="meta">
-          <div class="title">EduConnect — Student Feedback</div>
-          <div class="subtitle">Honest, anonymous option available • Responses saved securely</div>
+          <div class="title">APSK — Student Feedback</div>
+          <div class="subtitle">Honest & anonymous options • Responses saved securely</div>
         </div>
       </div>
 
       <div class="main">
         <div class="left">
 
-          <div class="q">
-            <h3>1. Do teachers come on time for class?</h3>
-            <div class="options" data-q="punctuality">
-              <div class="opt" data-value="Always">Always</div>
-              <div class="opt" data-value="Mostly">Mostly</div>
-              <div class="opt" data-value="Sometimes">Sometimes</div>
-              <div class="opt" data-value="Rarely">Rarely</div>
-            </div>
-            <div class="hint">Choose the option that best matches your experience.</div>
-          </div>
+          <!-- Group: Teaching Quality -->
+          <section class="group" data-group="teachingQuality">
+            <h2>Teaching Quality</h2>
+            <p class="desc">Questions about clarity, pace, grading and overall teaching effectiveness.</p>
 
-          <div class="q">
-            <h3>2. How clear are the teachers' explanations?</h3>
-            <div class="options" data-q="clarity">
-              <div class="opt" data-value="Very Clear">Very Clear</div>
-              <div class="opt" data-value="Clear">Clear</div>
-              <div class="opt" data-value="Sometimes Confusing">Sometimes Confusing</div>
-              <div class="opt" data-value="Often Confusing">Often Confusing</div>
-            </div>
-          </div>
-
-          <div class="q">
-            <h3>3. Fairness in grading and attention?</h3>
-            <div class="options" data-q="fairness">
-              <div class="opt" data-value="Very Fair">Very Fair</div>
-              <div class="opt" data-value="Mostly Fair">Mostly Fair</div>
-              <div class="opt" data-value="Neutral">Neutral</div>
-              <div class="opt" data-value="Unfair">Unfair</div>
-            </div>
-          </div>
-
-          <div class="q">
-            <h3>4. Classroom environment (discipline & support)?</h3>
-            <div class="options" data-q="environment">
-              <div class="opt" data-value="Excellent">Excellent</div>
-              <div class="opt" data-value="Good">Good</div>
-              <div class="opt" data-value="Average">Average</div>
-              <div class="opt" data-value="Needs Improvement">Needs Improvement</div>
-            </div>
-          </div>
-          
-          <div class="q">
-            <h3>5. Rate overall teaching quality</h3>
-            <div class="stars-wrap">
-              <div class="stars" role="radiogroup" aria-label="Overall rating">
-                <button class="star-btn" data-value="1" aria-label="1 star" tabindex="0">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="currentColor" stroke-width="0" fill="currentColor"/></svg>
-                  <span class="shine"></span>
-                  <span class="spark"></span>
-                  <span class="tooltip">Poor</span>
-                </button>
-                <button class="star-btn" data-value="2" aria-label="2 stars" tabindex="0">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="currentColor" stroke-width="0" fill="currentColor"/></svg>
-                  <span class="shine"></span>
-                  <span class="spark"></span>
-                  <span class="tooltip">Below Avg</span>
-                </button>
-                <button class="star-btn" data-value="3" aria-label="3 stars" tabindex="0">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="currentColor" stroke-width="0" fill="currentColor"/></svg>
-                  <span class="shine"></span>
-                  <span class="spark"></span>
-                  <span class="tooltip">Average</span>
-                </button>
-                <button class="star-btn" data-value="4" aria-label="4 stars" tabindex="0">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="currentColor" stroke-width="0" fill="currentColor"/></svg>
-                  <span class="shine"></span>
-                  <span class="spark"></span>
-                  <span class="tooltip">Good</span>
-                </button>
-                <button class="star-btn" data-value="5" aria-label="5 stars" tabindex="0">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" stroke="currentColor" stroke-width="0" fill="currentColor"/></svg>
-                  <span class="shine"></span>
-                  <span class="spark"></span>
-                  <span class="tooltip">Excellent</span>
-                </button>
+            <div class="q" data-q="clarity">
+              <h3>1. How clear are the teachers' explanations?</h3>
+              <div class="options">
+                <div class="opt" data-value="Very Clear">Very Clear</div>
+                <div class="opt" data-value="Clear">Clear</div>
+                <div class="opt" data-value="Sometimes Confusing">Sometimes Confusing</div>
+                <div class="opt" data-value="Often Confusing">Often Confusing</div>
               </div>
-              <div class="tiny">Tap a star • 1 (lowest) → 5 (highest)</div>
             </div>
-          </div>
 
-          <div class="q">
-            <h3>6. Any suggestions or feedback?</h3>
-            <textarea id="suggestions" rows="4" placeholder="Type constructive suggestions... (optional)" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent)"></textarea>
-          </div>
+            <div class="q" data-q="pace">
+              <h3>2. At what pace is the syllabus completed?</h3>
+              <div class="options">
+                <div class="opt" data-value="Late">Late and slow</div>
+                <div class="opt" data-value="On time">On time</div>
+                <div class="opt" data-value="Fast">Faster than usual</div>
+              </div>
+            </div>
+
+            <div class="q" data-q="grading">
+              <h3>3. Fairness in grading and attention?</h3>
+              <div class="options">
+                <div class="opt" data-value="Very Fair">Very Fair</div>
+                <div class="opt" data-value="Mostly Fair">Mostly Fair</div>
+                <div class="opt" data-value="Neutral">Neutral</div>
+                <div class="opt" data-value="Unfair">Unfair</div>
+              </div>
+            </div>
+
+            <div class="q">
+              <h3>4. Rate overall teaching quality</h3>
+              <div class="stars-wrap">
+                <div class="stars" role="radiogroup" aria-label="Teaching quality rating">
+                  <button class="star-btn" data-value="1" aria-label="1 star" tabindex="0"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="2" aria-label="2 stars" tabindex="0"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="3" aria-label="3 stars" tabindex="0"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="4" aria-label="4 stars" tabindex="0"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="5" aria-label="5 stars" tabindex="0"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                </div>
+                <div class="tiny">Tap a star • 1 (lowest) → 5 (highest)</div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Group: Doubts & Support -->
+          <section class="group" data-group="doubts">
+            <h2>Doubts & Support</h2>
+            <p class="desc">Questions about doubt clearing, availability and extra help.</p>
+
+            <div class="q" data-q="doubtClarify">
+              <h3>5. Do all the teachers clarify doubts?</h3>
+              <div class="options">
+                <div class="opt" data-value="Yes">Yes</div>
+                <div class="opt" data-value="No">No</div>
+              </div>
+            </div>
+
+            <div class="q" data-q="extraClasses">
+              <h3>6. Extra classes preferred?</h3>
+              <div class="options">
+                <div class="opt" data-value="Online">Online</div>
+                <div class="opt" data-value="Offline">Offline</div>
+                <div class="opt" data-value="No">No</div>
+              </div>
+              <div class="subject-input"><input type="text" placeholder="Enter subject name for extra classes (optional)" /></div>
+            </div>
+
+            <div class="q" data-q="topicUnderstanding">
+              <h3>7. Are you understanding topics subject-wise?</h3>
+              <div class="options">
+                <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Mostly">Mostly</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+              </div>
+              <div class="subject-input"><input type="text" placeholder="Enter subject & topic (optional)" /></div>
+            </div>
+
+          </section>
+
+          <!-- Group: Punctuality & Discipline -->
+          <section class="group" data-group="punctuality">
+            <h2>Punctuality & Discipline</h2>
+            <p class="desc">Arrival times, classroom discipline and environment.</p>
+
+            <div class="q" data-q="arrival">
+              <h3>8. Is reporting time to the class delayed? Which subject?</h3>
+              <div class="options">
+                <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Mostly">Mostly</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+                <div class="opt" data-value="Rarely">Rarely</div>
+              </div>
+              <div class="subject-input"><input type="text" placeholder="Enter subject name here (optional)" /></div>
+            </div>
+
+            <div class="q" data-q="environment">
+              <h3>9. Classroom environment (discipline & support)?</h3>
+              <div class="options">
+                <div class="opt" data-value="Excellent">Excellent</div>
+                <div class="opt" data-value="Good">Good</div>
+                <div class="opt" data-value="Average">Average</div>
+                <div class="opt" data-value="Needs Improvement">Needs Improvement</div>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- Group: Suggestions & Free text -->
+          <section class="group" data-group="suggestions">
+            <h2>Suggestions & Feedback</h2>
+            <p class="desc">Open answers that help admins improve teaching and process.</p>
+
+            <div class="q" data-q="favTeacher">
+              <h3>10. Your favorite teacher? Why?</h3>
+              <div class="answer"><textarea placeholder="Type your answer here..." rows="4"></textarea></div>
+            </div>
+
+            <div class="q" data-q="chapterRating">
+              <h3>11. How are you understanding chapter-wise?</h3>
+              <div class="stars-wrap">
+                <div class="stars" role="radiogroup" aria-label="Chapter-wise rating">
+                  <button class="star-btn" data-value="1" aria-label="1 star"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="2" aria-label="2 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="3" aria-label="3 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="4" aria-label="4 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                  <button class="star-btn" data-value="5" aria-label="5 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
+                </div>
+                <div class="tiny">Tap a star • 1 (lowest) → 5 (highest)</div>
+              </div>
+            </div>
+
+            <div class="q" data-q="generalSuggestions">
+              <h3>12. Any suggestions or feedback?</h3>
+              <textarea id="suggestions" rows="4" placeholder="Type constructive suggestions... (optional)" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent)"></textarea>
+            </div>
+
+          </section>
 
         </div>
 
         <aside class="right">
           <div class="panel">
             <h4>Student details</h4>
-            <div class="field"><input type="text" id="studentName" placeholder="Full name" required></div>
+            <div class="field"><input type="text" id="studentName" placeholder="Full name (or leave blank for anonymous)"></div>
             <div class="field"><input type="text" id="className" placeholder="Class (e.g. 9)" required></div>
             <div class="field"><input type="text" id="section" placeholder="Section (e.g. A)" required></div>
 
             <div class="divider"></div>
 
-            <div class="field"><label class="tiny">Select Your Fav  Teacher (optional)</label>
+            <div class="field"><label class="tiny">Select Your Fav Teacher (optional)</label>
               <select id="teacherSelect"><option value="">-- General --</option><option>Math</option><option>Science</option><option>English</option><option>Social Science</option><option>Hindi</option><option>Others</option></select></div>
 
             <div class="submit-row">
@@ -333,14 +702,16 @@ select:focus option {
   </div>
 
   <div class="toast" id="toast">Saved — thanks for your feedback!</div>
-  <footer class="tag">ARMY PUBLIC SCHOOL KOLKATA</footer>
+  <div class="designer">©Rajibul</div>
 
+
+  <!-- ----------------- Firebase + JS logic ----------------- -->
   <script type="module">
-    // Firebase modular imports (v10+)
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js';
-    import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
+    // Modular Firebase v9+ (browser ESM import)
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js';
+    import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
 
-    // ---------- EDIT: paste your config ----------
+    // ---------- FILL YOUR FIREBASE CONFIG BELOW ----------
 const firebaseConfig = {
   apiKey: "AIzaSyDualJqcVE_-FH2AxVoxs5I-gTredNzFGA",
   authDomain: "aps-kolkata-5e7d3.firebaseapp.com",
@@ -350,108 +721,156 @@ const firebaseConfig = {
   appId: "1:796966232821:web:9ef72d827671ee8e7f5bbc",
   measurementId: "G-6RQJ92QX1H"
 };
-    // ---------------------------------------------
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // State
-    const responses = {};
-    const opts = {};
+    // Helper: query all options / inputs inside a group and build data
+    function collectGroupAnswers(){
+      const groups = document.querySelectorAll('.group');
+      const payload = {};
 
-    // Options selection
-    document.querySelectorAll('.options').forEach(container => {
-      container.addEventListener('click', (e) => {
-        const btn = e.target.closest('.opt');
-        if(!btn) return;
-        container.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
-        btn.classList.add('selected');
-        opts[container.dataset.q] = btn.dataset.value;
+      groups.forEach(g =>{
+        const key = g.dataset.group || 'group_'+Math.random().toString(36).slice(2,6);
+        payload[key] = {};
+
+        // options & picks
+        g.querySelectorAll('.q').forEach(q =>{
+          const qKey = q.dataset.q || q.querySelector('h3')?.innerText?.slice(0,24).trim().replace(/\s+/g,'_') || 'q_'+Math.random().toString(36).slice(2,4);
+
+          // check for selected option
+          const selected = q.querySelector('.opt.selected');
+          if(selected){
+            payload[key][qKey] = {type:'choice', value:selected.dataset.value};
+            return;
+          }
+
+          // check for star rating
+          const activeStar = q.querySelector('.star-btn.active');
+          if(activeStar){
+            payload[key][qKey] = {type:'rating', value: Number(activeStar.dataset.value)};
+            return;
+          }
+
+          // check for textareas/inputs
+          const ta = q.querySelector('textarea');
+          if(ta && ta.value.trim()!==''){
+            payload[key][qKey] = {type:'text', value:ta.value.trim()};
+            return;
+          }
+
+          const inp = q.querySelector('input');
+          if(inp && inp.value.trim()!==''){
+            payload[key][qKey] = {type:'text', value:inp.value.trim()};
+            return;
+          }
+
+          // no answer provided
+          payload[key][qKey] = {type:'empty', value:null};
+        });
+      });
+
+      return payload;
+    }
+window.addEventListener("load", () => {
+  const overlay = document.getElementById("instructionOverlay");
+  const gotIt = document.getElementById("gotItBtn");
+
+  // Show popup on load
+  setTimeout(() => {
+    overlay.classList.add("active");
+  }, 800);
+
+  // Close on button click
+  gotIt.addEventListener("click", () => {
+    overlay.classList.remove("active");
+  });
+});
+
+    // UI: option clicks
+    document.querySelectorAll('.opt').forEach(el=>{
+      el.addEventListener('click', e =>{
+        const parent = el.closest('.options');
+        // single-select per question
+        parent.querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+        el.classList.add('selected');
       });
     });
 
-    // Stars logic
-    const starButtons = Array.from(document.querySelectorAll('.star-btn'));
-    let currentRating = 0;
+    // Stars
+    document.querySelectorAll('.stars').forEach(starWrap=>{
+      starWrap.querySelectorAll('.star-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          // clear
+          starWrap.querySelectorAll('.star-btn').forEach(s=>s.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      })
+    });
 
-    function setRating(r){
-      currentRating = r;
-      starButtons.forEach(btn=>{
-        const v = Number(btn.dataset.value);
-        if(v<=r){ btn.classList.add('filled'); } else { btn.classList.remove('filled'); }
-      });
+    // Toast
+    const toast = document.getElementById('toast');
+    function showToast(msg='Saved — thanks for your feedback!', time=2500){
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), time);
     }
 
-    // Click & keyboard
-    starButtons.forEach(btn => {
-      btn.addEventListener('click', ()=>{
-        const v = Number(btn.dataset.value);
-        setRating(v);
-        // tiny pop animation
-        btn.animate([{transform:'scale(1.05)'},{transform:'scale(1)'}],{duration:260,easing:'cubic-bezier(.2,.9,.2,1)'});
-      });
-      btn.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); btn.click(); }
-        if(e.key === 'ArrowRight'){
-          const next = Math.min(5, Number(btn.dataset.value)+1); setRating(next);
-        }
-        if(e.key === 'ArrowLeft'){
-          const prev = Math.max(1, Number(btn.dataset.value)-1); setRating(prev);
-        }
-      });
-      // hover preview
-      btn.addEventListener('mouseover', ()=>{
-        const v = Number(btn.dataset.value);
-        starButtons.forEach(b=>{ if(Number(b.dataset.value) <= v) b.classList.add('filled'); });
-      });
-      btn.addEventListener('mouseout', ()=>{ setRating(currentRating); });
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      // clear selections
+      document.querySelectorAll('.opt.selected').forEach(o=>o.classList.remove('selected'));
+      document.querySelectorAll('.star-btn.active').forEach(s=>s.classList.remove('active'));
+      document.querySelectorAll('textarea').forEach(t=>t.value='');
+      document.querySelectorAll('.subject-input input').forEach(i=>i.value='');
+      document.getElementById('studentName').value='';
+      document.getElementById('className').value='';
+      document.getElementById('section').value='';
+      document.getElementById('teacherSelect').value='';
     });
 
-    // Submit handler
-    const submitBtn = document.getElementById('submitBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const toast = document.getElementById('toast');
+    // Submit handler - uploads to Firestore
+    document.getElementById('submitBtn').addEventListener('click', async ()=>{
+      // basic validation
+      const className = document.getElementById('className').value.trim();
+      const section = document.getElementById('section').value.trim();
+      if(!className || !section){
+        showToast('Please enter class and section (or write "anonymous" in name).');
+        return;
+      }
 
-    function showToast(msg){ toast.textContent = msg; toast.style.display='block'; setTimeout(()=>toast.style.display='none',2800); }
+      const payload = collectGroupAnswers();
+      const doc = {
+        studentName: document.getElementById('studentName').value.trim() || null,
+        class: className,
+        section: section,
+        favTeacher: document.getElementById('teacherSelect').value || null,
+        groups: payload,
+        submittedAt: serverTimestamp(),
+        userAgent: navigator.userAgent
+      };
 
-    submitBtn.addEventListener('click', async ()=>{
-      submitBtn.disabled = true; submitBtn.textContent = 'Saving...';
       try{
-        const payload = {
-          name: document.getElementById('studentName').value.trim(),
-          className: document.getElementById('className').value.trim(),
-          section: document.getElementById('section').value.trim(),
-          teacher: document.getElementById('teacherSelect').value || null,
-          punctuality: opts.punctuality || null,
-          clarity: opts.clarity || null,
-          fairness: opts.fairness || null,
-          environment: opts.environment || null,
-          rating: currentRating || null,
-          suggestions: document.getElementById('suggestions').value.trim() || null,
-          createdAt: serverTimestamp()
-        };
-
-        // validation (basic)
-        if(!payload.name || !payload.className || !payload.section){ showToast('Please fill name, class, section'); submitBtn.disabled=false; submitBtn.textContent='Submit Feedback'; return; }
-
-        await addDoc(collection(db, 'feedback'), payload);
+        const ref = await addDoc(collection(db,'feedback'), doc);
+        console.log('Saved doc id', ref.id);
         showToast('Saved — thanks for your feedback!');
-        // micro-success animation
-        document.querySelector('.card').animate([{transform:'scale(1)'},{transform:'scale(1.01)'},{transform:'scale(1)'}],{duration:600, easing:'ease-out'});
-        // reset
-        document.getElementById('studentName').value=''; document.getElementById('className').value=''; document.getElementById('section').value=''; document.getElementById('teacherSelect').value=''; document.getElementById('suggestions').value='';
-        document.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected')); setRating(0); Object.keys(opts).forEach(k=>delete opts[k]);
-      }catch(err){ console.error(err); showToast('Failed to save — check console'); }
-      finally{ submitBtn.disabled=false; submitBtn.textContent='Submit Feedback'; }
+        // optional: reset after save
+        // document.getElementById('resetBtn').click();
+      }catch(err){
+        console.error(err);
+        showToast('Error saving — please try again later.');
+      }
     });
 
-    resetBtn.addEventListener('click', ()=>{
-      document.getElementById('feedbackForm')?.reset(); document.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected')); setRating(0); Object.keys(opts).forEach(k=>delete opts[k]); showToast('Form reset');
+    // Accessibility: keyboard support for star buttons
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' && document.activeElement.classList.contains('star-btn')){
+        document.activeElement.click();
+      }
     });
 
-    // accessibility: allow pressing Enter on any input to submit
-    document.getElementById('studentName').addEventListener('keydown',(e)=>{ if(e.key==='Enter'){ submitBtn.click(); } });
+    // NOTE: Before deployment, secure Firestore rules to avoid abuse. Use server-side verification or require auth for sensitive writes if needed.
 
   </script>
+
 </body>
 </html>
