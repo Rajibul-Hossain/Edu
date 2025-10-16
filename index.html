@@ -490,6 +490,69 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
     opacity: 1;
   }
 }
+.opt {
+  display: inline-block;
+  margin: 6px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  color: #eee;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.opt:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+.opt.active {
+  background: #00bcd4;
+  color: #000;
+  box-shadow: 0 0 12px #00bcd4aa;
+  transform: scale(1.05);
+}
+
+/* Input box hidden by default */
+.subject-input {
+  margin-top: 12px;
+  display: none;
+}
+
+/* Bounce-in animation for textbox */
+.show-box {
+  animation: bounceIn 0.5s cubic-bezier(0.22, 1.61, 0.36, 1);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-4px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.subject-input input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.subject-input input:focus {
+  border-color: #00bcd4;
+  box-shadow: 0 0 10px #00bcd4aa;
+}
 
 
   </style>
@@ -502,11 +565,11 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
     <p>Hey there! Before you start, please read these quick points:</p>
 <ul>
   <li>Be honest about your experience — we want real feedback.</li>
-  <li>Tap “Submit Feedback” when you’re done!</li>
   <li>Make sure to fill in your name, class, and section accurately.</li>
   <li>Be open but respectful.</li>
   <li>Check your inputs before submitting — once sent, edits aren’t possible.</li>
   <li>Enjoy giving feedback and help improve your learning environment!</li>
+  <li>Tap “Submit Feedback” when you’re done!</li>
 </ul>
 
     <button id="gotItBtn">Got it!</button>
@@ -531,40 +594,47 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
 
           <!-- Group: Teaching Quality -->
           <section class="group" data-group="teachingQuality">
-            <h2>Teaching Quality</h2>
+            <h2>Teaching </h2>
             <p class="desc">Questions about clarity, pace, grading and overall teaching effectiveness.</p>
 
             <div class="q" data-q="clarity">
-              <h3>1. How clear are the teachers' explanations?</h3>
+              <h3>1. I can understand teachers' explanations clearly.</h3>
               <div class="options">
-                <div class="opt" data-value="Very Clear">Very Clear</div>
-                <div class="opt" data-value="Clear">Clear</div>
-                <div class="opt" data-value="Sometimes Confusing">Sometimes Confusing</div>
-                <div class="opt" data-value="Often Confusing">Often Confusing</div>
+                <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+                <div class="opt" data-value="Rarely">Rarely</div>
+            
               </div>
             </div>
 
             <div class="q" data-q="pace">
-              <h3>2. At what pace is the syllabus completed?</h3>
+              <h3>The syllabus of subjects is completed at a good pace</h3>
               <div class="options">
-                <div class="opt" data-value="Late">Late and slow</div>
-                <div class="opt" data-value="On time">On time</div>
-                <div class="opt" data-value="Fast">Faster than usual</div>
+        <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+                <div class="opt" data-value="Rarely">Rarely</div>
               </div>
             </div>
 
             <div class="q" data-q="grading">
-              <h3>3. Fairness in grading and attention?</h3>
+              <h3>3. Equal attention is given to all students in the class.</h3>
               <div class="options">
-                <div class="opt" data-value="Very Fair">Very Fair</div>
-                <div class="opt" data-value="Mostly Fair">Mostly Fair</div>
-                <div class="opt" data-value="Neutral">Neutral</div>
-                <div class="opt" data-value="Unfair">Unfair</div>
+        <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+                <div class="opt" data-value="Rarely">Rarely</div>
+              </div>
+            </div>
+             <div class="q" data-q="grading">
+              <h3>4 Grading of examination papers is done logically.</h3>
+              <div class="options">
+        <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+                <div class="opt" data-value="Rarely">Rarely</div>
               </div>
             </div>
 
             <div class="q">
-              <h3>4. Rate overall teaching quality</h3>
+              <h3>5. Rate overall teaching</h3>
               <div class="stars-wrap">
                 <div class="stars" role="radiogroup" aria-label="Teaching quality rating">
                   <button class="star-btn" data-value="1" aria-label="1 star" tabindex="0"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
@@ -581,37 +651,35 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
 
           <!-- Group: Doubts & Support -->
           <section class="group" data-group="doubts">
-            <h2>Doubts & Support</h2>
+            <h2>Help & Support</h2>
             <p class="desc">Questions about doubt clearing, availability and extra help.</p>
-
-            <div class="q" data-q="doubtClarify">
-              <h3>5. Do all the teachers clarify doubts?</h3>
+                     <div class="q" data-q="topicUnderstanding">
+              <h3>6. I can easily understand all topics in every subject</h3>
               <div class="options">
                 <div class="opt" data-value="Yes">Yes</div>
                 <div class="opt" data-value="No">No</div>
               </div>
+              <div class="subject-input"><input type="text" placeholder="Enter subject & topic" /></div>
+            </div>
+            <div class="q" data-q="doubtClarify">
+              <h3>7. Teachers clarify my doubts in the class</h3>
+              <div class="options">
+        <div class="opt" data-value="Always">Always</div>
+                <div class="opt" data-value="Sometimes">Sometimes</div>
+                <div class="opt" data-value="Rarely">Rarely</div>
+              </div>
             </div>
 
             <div class="q" data-q="extraClasses">
-              <h3>6. Extra classes preferred?</h3>
+              <h3>8. I want extra classes to clarify my doubts.</h3>
               <div class="options">
                 <div class="opt" data-value="Online">Online</div>
                 <div class="opt" data-value="Offline">Offline</div>
                 <div class="opt" data-value="No">No</div>
               </div>
-              <div class="subject-input"><input type="text" placeholder="Enter subject name for extra classes (optional)" /></div>
             </div>
 
-            <div class="q" data-q="topicUnderstanding">
-              <h3>7. Are you understanding topics subject-wise?</h3>
-              <div class="options">
-                <div class="opt" data-value="Always">Always</div>
-                <div class="opt" data-value="Mostly">Mostly</div>
-                <div class="opt" data-value="Sometimes">Sometimes</div>
-              </div>
-              <div class="subject-input"><input type="text" placeholder="Enter subject & topic (optional)" /></div>
-            </div>
-
+<!--CHANGE-->
           </section>
 
           <!-- Group: Punctuality & Discipline -->
@@ -620,23 +688,22 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
             <p class="desc">Arrival times, classroom discipline and environment.</p>
 
             <div class="q" data-q="arrival">
-              <h3>8. Is reporting time to the class delayed? Which subject?</h3>
+              <h3>9. Teachers come to class on time</h3>
               <div class="options">
-                <div class="opt" data-value="Always">Always</div>
-                <div class="opt" data-value="Mostly">Mostly</div>
-                <div class="opt" data-value="Sometimes">Sometimes</div>
-                <div class="opt" data-value="Rarely">Rarely</div>
+                <div class="opt" data-value="Yes">Yes</div>
+                <div class="opt" data-value="No">No</div>
               </div>
-              <div class="subject-input"><input type="text" placeholder="Enter subject name here (optional)" /></div>
+              <div class="subject-input"><input type="text" placeholder="Enter subject" required/></div>
             </div>
 
             <div class="q" data-q="environment">
-              <h3>9. Classroom environment (discipline & support)?</h3>
+              <h3>10. The classroom environment is warm and supportive.</h3>
               <div class="options">
-                <div class="opt" data-value="Excellent">Excellent</div>
-                <div class="opt" data-value="Good">Good</div>
-                <div class="opt" data-value="Average">Average</div>
-                <div class="opt" data-value="Needs Improvement">Needs Improvement</div>
+             <div class="options">
+                <div class="opt" data-value="Yes">Yes</div>
+                <div class="opt" data-value="No">No</div>
+              </div>
+              <div class="subject-input"><input type="text" placeholder="Enter subject & topic" /></div>
               </div>
             </div>
 
@@ -648,27 +715,16 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
             <p class="desc">Open answers that help admins improve teaching and process.</p>
 
             <div class="q" data-q="favTeacher">
-              <h3>10. Your favorite teacher? Why?</h3>
+              <h3>11. My favourite teacher is </h3>
+              <div class="answer"><textarea placeholder="Type your answer here..." rows="4"></textarea></div>
+                            <h3>Because</h3>
               <div class="answer"><textarea placeholder="Type your answer here..." rows="4"></textarea></div>
             </div>
 
-            <div class="q" data-q="chapterRating">
-              <h3>11. How are you understanding chapter-wise?</h3>
-              <div class="stars-wrap">
-                <div class="stars" role="radiogroup" aria-label="Chapter-wise rating">
-                  <button class="star-btn" data-value="1" aria-label="1 star"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
-                  <button class="star-btn" data-value="2" aria-label="2 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
-                  <button class="star-btn" data-value="3" aria-label="3 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
-                  <button class="star-btn" data-value="4" aria-label="4 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
-                  <button class="star-btn" data-value="5" aria-label="5 stars"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg><span class="tooltip"></span></button>
-                </div>
-                <div class="tiny">Tap a star • 1 (lowest) → 5 (highest)</div>
-              </div>
-            </div>
 
             <div class="q" data-q="generalSuggestions">
-              <h3>12. Any suggestions or feedback?</h3>
-              <textarea id="suggestions" rows="4" placeholder="Type constructive suggestions... (optional)" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent)"></textarea>
+              <h3>12. My suggestions to improve my school experience </h3>
+              <textarea id="suggestions" rows="4" placeholder="Type constructive suggestions... " style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--accent)"></textarea>
             </div>
 
           </section>
@@ -678,15 +734,13 @@ footer.tag{position:fixed;left:16px;bottom:18px;font-size:12px;color:rgba(255,25
         <aside class="right">
           <div class="panel">
             <h4>Student details</h4>
-            <div class="field"><input type="text" id="studentName" placeholder="Full name (or leave blank for anonymous)"></div>
-            <div class="field"><input type="text" id="className" placeholder="Class (e.g. 9)" required></div>
-            <div class="field"><input type="text" id="section" placeholder="Section (e.g. A)" required></div>
+            <div class="field"><input type="text" id="studentName" placeholder="Full name"></div>
+            <div class="field"><input type="text" id="className" placeholder="Class " required></div>
+            <div class="field"><input type="text" id="section" placeholder="Section " required></div>
 
             <div class="divider"></div>
 
-            <div class="field"><label class="tiny">Select Your Fav Teacher (optional)</label>
-              <select id="teacherSelect"><option value="">-- General --</option><option>Math</option><option>Science</option><option>English</option><option>Social Science</option><option>Hindi</option><option>Others</option></select></div>
-
+          
             <div class="submit-row">
               <button class="btn primary" id="submitBtn">Submit Feedback</button>
               <button class="btn ghost" id="resetBtn">Reset</button>
@@ -771,6 +825,7 @@ const firebaseConfig = {
 
       return payload;
     }
+
 window.addEventListener("load", () => {
   const overlay = document.getElementById("instructionOverlay");
   const gotIt = document.getElementById("gotItBtn");
@@ -834,7 +889,7 @@ window.addEventListener("load", () => {
       const className = document.getElementById('className').value.trim();
       const section = document.getElementById('section').value.trim();
       if(!className || !section){
-        showToast('Please enter class and section (or write "anonymous" in name).');
+        showToast('Please enter class and section');
         return;
       }
 
@@ -843,7 +898,6 @@ window.addEventListener("load", () => {
         studentName: document.getElementById('studentName').value.trim() || null,
         class: className,
         section: section,
-        favTeacher: document.getElementById('teacherSelect').value || null,
         groups: payload,
         submittedAt: serverTimestamp(),
         userAgent: navigator.userAgent
@@ -870,7 +924,35 @@ window.addEventListener("load", () => {
 
     // NOTE: Before deployment, secure Firestore rules to avoid abuse. Use server-side verification or require auth for sensitive writes if needed.
 
-  </script>
+  </script><script>
+document.querySelectorAll(".q").forEach(q => {
+  const opts = q.querySelectorAll(".opt");
+  const inputBox = q.querySelector(".subject-input");
+
+  if (!opts.length || !inputBox) return; // skip if no options or no textbox
+
+  // hide initially
+  inputBox.style.display = "none";
+
+  opts.forEach(opt => {
+    opt.addEventListener("click", () => {
+      // remove active from all options
+      opts.forEach(o => o.classList.remove("active"));
+      opt.classList.add("active");
+
+      // check value
+      if (opt.dataset.value === "No") {
+        inputBox.style.display = "block";
+        inputBox.classList.add("show-box");
+      } else {
+        inputBox.style.display = "none";
+        inputBox.classList.remove("show-box");
+      }
+    });
+  });
+});
+</script>
+
 
 </body>
 </html>
